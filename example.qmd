@@ -6,4 +6,3 @@ title: "Rev-history Example"
 
 {{< rev-history >}}
 
-

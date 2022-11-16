@@ -13,17 +13,24 @@ end
 -- defining shortcodes this way allows us to create helper 
 -- functions that are not themselves considered shortcodes 
 return {
-    ["git-rev"] = function(args, kwargs)
+    ["rev-history"] = function(args, kwargs)
         -- An example for future use (taken from quarto docs)...
         -- local cmdArgs = ""
         -- local short = pandoc.utils.stringify(kwargs["short"])
         -- if short == "true" then cmdArgs = cmdArgs .. "--short " end
 
+        local header =  "| tag | date | author | description |\n"
+        local divider = "|:----|:-----|:-------|:------------|\n"
+
         -- run the command
-        local cmd = "for-each-ref --format='%(refname:short) | %(authordate:short) | %(authorname) | %(subject)' refs/tags"
+        local cmd = "for-each-ref --format='| %(refname:short) | %(authordate:short) | %(authorname) | %(subject) |' refs/tags"
         local tags = git(cmd)
 
         -- return as string
-        return pandoc.Str(tags)
+        if tags ~= nil then
+            return pandoc.read(header .. divider .. tags ).blocks
+        else
+            return pandoc.Null()
+        end
     end
 }
