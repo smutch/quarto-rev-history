@@ -1,0 +1,9 @@
+---
+title: "Rev-history Example"
+---
+
+## Heading
+
+{{< rev-history >}}
+
+
